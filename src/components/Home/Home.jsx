@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import MusicPlayer from '../Music/MusicPlayer';
+import GoogleSearch from '../Google/GoogleSearch';
 import './Home.css';
 
 const Home = () => {
@@ -24,6 +25,8 @@ const Home = () => {
   const [menuDropdown, setMenuDropdown] = useState(null);
   const [dockHover, setDockHover] = useState(-1);
   const [isMusicPlayerOpen, setIsMusicPlayerOpen] = useState(false);
+  const [isGoogleOpen, setIsGoogleOpen] = useState(false);
+  const [musicService, setMusicService] = useState('apple');
   const dockRef = useRef(null);
 
   const handleDockIconClick = (appName) => {
@@ -31,6 +34,7 @@ const Home = () => {
     switch (appName) {
       case 'music':
         console.log('Opening music player');
+        setMusicService('apple');
         setIsMusicPlayerOpen(true);
         break;
       case 'todo':
@@ -40,7 +44,7 @@ const Home = () => {
         // Handle journal click
         break;
       case 'chrome':
-        window.open('https://www.google.com', '_blank');
+        setIsGoogleOpen(true);
         break;
       case 'settings':
         // Handle settings click
@@ -511,7 +515,13 @@ const Home = () => {
       {/* Music Player Modal */}
       <MusicPlayer 
         isOpen={isMusicPlayerOpen} 
-        onClose={() => setIsMusicPlayerOpen(false)} 
+        onClose={() => setIsMusicPlayerOpen(false)}
+      />
+
+      {/* Google Frame */}
+      <GoogleSearch
+        isOpen={isGoogleOpen}
+        onClose={() => setIsGoogleOpen(false)}
       />
     </div>
   );
