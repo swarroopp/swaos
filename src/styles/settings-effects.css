@@ -1,0 +1,36 @@
+/* Apply brightness and color filters globally */
+#root {
+  filter: brightness(var(--display-brightness)) var(--color-filter);
+  transition: filter var(--transition-speed) ease;
+}
+
+/* Reduce motion when setting is enabled */
+[data-reduce-motion="true"] * {
+  transition: none !important;
+  animation: none !important;
+}
+
+/* High contrast mode */
+[data-high-contrast="true"] {
+  --text-primary: #ffffff !important;
+  --text-secondary: #ffffff !important;
+  --bg-primary: #000000 !important;
+  --bg-secondary: #000000 !important;
+  --border-color: #ffffff !important;
+  --window-bg: rgba(0, 0, 0, 0.95) !important;
+  --dock-bg: rgba(0, 0, 0, 0.95) !important;
+}
+
+/* Font size utility classes */
+.text-small { font-size: var(--font-size-small); }
+.text-medium { font-size: var(--font-size-medium); }
+.text-large { font-size: var(--font-size-large); }
+.text-xl { font-size: var(--font-size-xl); }
+
+/* Animations can be disabled globally */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

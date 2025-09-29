@@ -1,0 +1,44 @@
+/* macOS cursor styles */
+html,
+body,
+#root {
+  cursor: -webkit-image-set(
+    url('/cursors/default.png') 1x,
+    url('/cursors/default@2x.png') 2x
+  ) 6 3, default !important;
+}
+* {
+  cursor: -webkit-image-set(
+    url('/cursors/default.png') 1x,
+    url('/cursors/default@2x.png') 2x
+  ) 6 3, default;
+}
+
+a, button, select, input[type="checkbox"], input[type="radio"] {
+  cursor: -webkit-image-set(
+    url('/cursors/pointer.png') 1x,
+    url('/cursors/pointer@2x.png') 2x
+  ) 14 8, pointer;
+}
+
+input[type="text"], textarea {
+  cursor: -webkit-image-set(
+    url('/cursors/text.png') 1x,
+    url('/cursors/text@2x.png') 2x
+  ) 16 16, text;
+}
+
+/* Fallback for Firefox and other browsers */
+@supports not (-webkit-image-set: url('/cursors/default.png')) {
+  * {
+    cursor: url('/cursors/default.png') 6 3, default;
+  }
+
+  a, button, select, input[type="checkbox"], input[type="radio"] {
+    cursor: url('/cursors/pointer.png') 14 8, pointer;
+  }
+
+  input[type="text"], textarea {
+    cursor: url('/cursors/text.png') 16 16, text;
+  }
+}

@@ -1,0 +1,99 @@
+/* macOS cursor styles */
+:root {
+  --cursor-default: -webkit-image-set(
+    url('https://uploads-ssl.webflow.com/5f7081c044fb7b3321ac260e/5f70853981255fa5e08a3dd5_default.png') 1x,
+    url('https://uploads-ssl.webflow.com/5f7081c044fb7b3321ac260e/5f70853981255fa5e08a3dd5_default.png') 2x
+  ) 10 10, default;
+
+  --cursor-pointer: -webkit-image-set(
+    url('https://uploads-ssl.webflow.com/5f7081c044fb7b3321ac260e/5f70853ff3bafbac60495771_pointer.png') 1x,
+    url('https://uploads-ssl.webflow.com/5f7081c044fb7b3321ac260e/5f70853ff3bafbac60495771_pointer.png') 2x
+  ) 14 8, pointer;
+
+  --cursor-text: -webkit-image-set(
+    url('https://uploads-ssl.webflow.com/5f7081c044fb7b3321ac260e/5f70853943597517f128b9b4_text.png') 1x,
+    url('https://uploads-ssl.webflow.com/5f7081c044fb7b3321ac260e/5f70853943597517f128b9b4_text.png') 2x
+  ) 16 16, text;
+
+  --cursor-move: -webkit-image-set(
+    url('https://uploads-ssl.webflow.com/5f7081c044fb7b3321ac260e/5f708539d3986b39b3e8b1c9_move.png') 1x,
+    url('https://uploads-ssl.webflow.com/5f7081c044fb7b3321ac260e/5f708539d3986b39b3e8b1c9_move.png') 2x
+  ) 16 16, move;
+
+  --cursor-not-allowed: -webkit-image-set(
+    url('https://uploads-ssl.webflow.com/5f7081c044fb7b3321ac260e/5f70853943597517f128b9b4_text.png') 1x,
+    url('https://uploads-ssl.webflow.com/5f7081c044fb7b3321ac260e/5f70853943597517f128b9b4_text.png') 2x
+  ) 16 16, not-allowed;
+
+  --cursor-ns-resize: -webkit-image-set(
+    url('https://uploads-ssl.webflow.com/5f7081c044fb7b3321ac260e/5f70853920b5ac6ff23dcc6a_ns-resize.png') 1x,
+    url('https://uploads-ssl.webflow.com/5f7081c044fb7b3321ac260e/5f70853920b5ac6ff23dcc6a_ns-resize.png') 2x
+  ) 16 16, ns-resize;
+
+  --cursor-ew-resize: -webkit-image-set(
+    url('https://uploads-ssl.webflow.com/5f7081c044fb7b3321ac260e/5f70853920b5ac6ff23dcc6a_ns-resize.png') 1x,
+    url('https://uploads-ssl.webflow.com/5f7081c044fb7b3321ac260e/5f70853920b5ac6ff23dcc6a_ns-resize.png') 2x
+  ) 16 16, ew-resize;
+}
+
+/* Apply cursors to elements */
+body {
+  cursor: var(--cursor-default);
+}
+
+a, button, [role="button"], .clickable {
+  cursor: var(--cursor-pointer);
+}
+
+input[type="text"],
+textarea,
+[contenteditable="true"] {
+  cursor: var(--cursor-text);
+}
+
+.draggable, .window-header {
+  cursor: var(--cursor-move);
+}
+
+.disabled, [disabled], [aria-disabled="true"] {
+  cursor: var(--cursor-not-allowed);
+}
+
+.resizable-ns {
+  cursor: var(--cursor-ns-resize);
+}
+
+.resizable-ew {
+  cursor: var(--cursor-ew-resize);
+}
+
+/* Settings specific cursors */
+.settings-header {
+  cursor: var(--cursor-move);
+}
+
+.settings-content {
+  cursor: var(--cursor-default);
+}
+
+.toggle-switch input[type="checkbox"] {
+  cursor: var(--cursor-pointer);
+}
+
+.settings-sidebar .sidebar-item {
+  cursor: var(--cursor-pointer);
+}
+
+.traffic-light {
+  cursor: var(--cursor-pointer);
+}
+
+/* Slider handles */
+input[type="range"]::-webkit-slider-thumb {
+  cursor: var(--cursor-ew-resize);
+}
+
+/* Select elements */
+select {
+  cursor: var(--cursor-pointer);
+}

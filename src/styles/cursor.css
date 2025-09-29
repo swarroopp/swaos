@@ -1,0 +1,25 @@
+/* macOS cursor styles */
+* {
+  cursor: url('https://raw.githubusercontent.com/khang-nd/7.cursor/main/cursors/default.cur'), auto !important;
+}
+
+a, button, [role="button"], .clickable {
+  cursor: url('https://raw.githubusercontent.com/khang-nd/7.cursor/main/cursors/pointer.cur'), pointer !important;
+}
+
+.resizable-ns {
+  cursor: url('https://raw.githubusercontent.com/khang-nd/7.cursor/main/cursors/ns-resize.cur'), ns-resize !important;
+}
+
+.resizable-ew {
+  cursor: url('https://raw.githubusercontent.com/khang-nd/7.cursor/main/cursors/ew-resize.cur'), ew-resize !important;
+}
+
+input[type="text"], textarea {
+  cursor: url('https://raw.githubusercontent.com/khang-nd/7.cursor/main/cursors/text.cur'), text !important;
+}
+
+/* Ensure the cursor applies to everything */
+html, body, #root, * {
+  cursor: url('https://raw.githubusercontent.com/khang-nd/7.cursor/main/cursors/default.cur'), auto !important;
+}

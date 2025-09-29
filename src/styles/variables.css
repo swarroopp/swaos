@@ -1,0 +1,55 @@
+:root {
+  /* Theme colors */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f7;
+  --text-primary: #000000;
+  --text-secondary: #86868b;
+  --accent-color: #007AFF;
+  --window-bg: rgba(255, 255, 255, var(--app-transparency, 0.85));
+  --dock-bg: rgba(255, 255, 255, var(--app-transparency, 0.6));
+  --modal-bg: rgba(255, 255, 255, var(--app-transparency, 0.85));
+  --border-color: rgba(0, 0, 0, 0.1);
+  --shadow-color: rgba(0, 0, 0, 0.1);
+
+  /* Font sizes */
+  --font-size-base: 16px;
+  --font-size-small: calc(var(--font-size-base) - 2px);
+  --font-size-medium: var(--font-size-base);
+  --font-size-large: calc(var(--font-size-base) + 2px);
+  --font-size-xl: calc(var(--font-size-base) + 4px);
+
+  /* Transition effects */
+  --transition-speed: 0.3s;
+
+  /* Default values */
+  --app-transparency: 0.85;
+  --app-blur: 20px;
+  --display-brightness: 100%;
+  --color-filter: none;
+  font-size: var(--font-size-base);
+}
+
+[data-theme="dark"] {
+  --bg-primary: #000000;
+  --bg-secondary: #1c1c1e;
+  --text-primary: #ffffff;
+  --text-secondary: #98989d;
+  --window-bg: rgba(28, 28, 30, var(--app-transparency, 0.85));
+  --dock-bg: rgba(28, 28, 30, var(--app-transparency, 0.6));
+  --modal-bg: rgba(28, 28, 30, var(--app-transparency, 0.85));
+  --border-color: rgba(255, 255, 255, 0.1);
+  --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+[data-reduce-motion="true"] * {
+  transition: none !important;
+  animation: none !important;
+}
+
+[data-high-contrast="true"] {
+  --text-primary: #ffffff;
+  --text-secondary: #ffffff;
+  --bg-primary: #000000;
+  --bg-secondary: #000000;
+  --border-color: #ffffff;
+}

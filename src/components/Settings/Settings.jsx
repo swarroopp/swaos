@@ -45,13 +45,97 @@ const Settings = ({ isOpen, onClose }) => {
     };
   }, [isOpen]);
 
+  // Effect for theme changes
   useEffect(() => {
     // Apply theme changes to the entire app
     document.documentElement.style.setProperty('--accent-color', theme.accentColor);
     document.documentElement.style.setProperty('--app-transparency', theme.transparency);
     document.documentElement.style.setProperty('--app-blur', `${theme.blur}px`);
     document.documentElement.setAttribute('data-theme', theme.mode);
+    
+    if (theme.mode === 'auto') {
+      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+    }
+    
+    // Store settings in localStorage
+    localStorage.setItem('theme', JSON.stringify(theme));
   }, [theme]);
+
+  // Effect for accessibility settings
+  useEffect(() => {
+    // Apply accessibility settings
+    const fontSize = accessibility.fontSize === 'small' ? 14 : 
+                    accessibility.fontSize === 'large' ? 18 : 
+                    accessibility.fontSize === 'extra-large' ? 20 : 16;
+    
+    document.documentElement.style.setProperty('--font-size-base', `${fontSize}px`);
+    document.documentElement.setAttribute('data-reduce-motion', accessibility.reduceMotion);
+    document.documentElement.setAttribute('data-high-contrast', accessibility.increaseContrast);
+    
+    // Store settings
+    localStorage.setItem('accessibility', JSON.stringify(accessibility));
+  }, [accessibility]);
+
+  // Effect for sound settings
+  useEffect(() => {
+    if ('AudioContext' in window) {
+      const audioContext = new AudioContext();
+      const gainNode = audioContext.createGain();
+      gainNode.gain.value = sound.volume / 100;
+    }
+    localStorage.setItem('sound', JSON.stringify(sound));
+  }, [sound]);
+
+  // Effect for display settings
+  useEffect(() => {
+    if (display.nightMode) {
+      document.documentElement.style.setProperty('--color-filter', 'brightness(0.8) sepia(0.2)');
+    } else {
+      document.documentElement.style.removeProperty('--color-filter');
+    }
+    
+    document.documentElement.style.setProperty('--display-brightness', `${display.brightness}%`);
+    localStorage.setItem('display', JSON.stringify(display));
+  }, [display]);
+
+  // Effect for notification settings
+  useEffect(() => {
+    if (notifications.enabled && 'Notification' in window) {
+      Notification.requestPermission();
+    }
+    localStorage.setItem('notifications', JSON.stringify(notifications));
+  }, [notifications]);
+
+  // Load all saved settings on mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) setTheme(JSON.parse(savedTheme));
+    
+    const savedAccessibility = localStorage.getItem('accessibility');
+    if (savedAccessibility) setAccessibility(JSON.parse(savedAccessibility));
+    
+    const savedSound = localStorage.getItem('sound');
+    if (savedSound) setSound(JSON.parse(savedSound));
+    
+    const savedDisplay = localStorage.getItem('display');
+    if (savedDisplay) setDisplay(JSON.parse(savedDisplay));
+    
+    const savedNotifications = localStorage.getItem('notifications');
+    if (savedNotifications) setNotifications(JSON.parse(savedNotifications));
+
+    // Check for system dark mode
+    if (window.matchMedia) {
+      const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const handleDarkModeChange = (e) => {
+        if (theme.mode === 'auto') {
+          document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+        }
+      };
+      darkModeMediaQuery.addListener(handleDarkModeChange);
+      return () => darkModeMediaQuery.removeListener(handleDarkModeChange);
+    }
+  }, [theme.mode]);
 
   const handleMouseDown = (e) => {
     if (e.target.closest('.traffic-lights') || e.target.closest('.settings-content')) {
