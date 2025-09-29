@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import MusicPlayer from '../Music/MusicPlayer';
 import GoogleSearch from '../Google/GoogleSearch';
+import Settings from '../Settings/Settings';
 import './Home.css';
 
 const Home = () => {
@@ -26,16 +27,44 @@ const Home = () => {
   const [dockHover, setDockHover] = useState(-1);
   const [isMusicPlayerOpen, setIsMusicPlayerOpen] = useState(false);
   const [isGoogleOpen, setIsGoogleOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  const [activeWindows, setActiveWindows] = useState([]);
   const [musicService, setMusicService] = useState('apple');
+  const [activeApps, setActiveApps] = useState({
+    music: false,
+    todo: false,
+    journal: false,
+    chrome: false,
+    settings: false,
+    calendar: false,
+    zic: false
+  });
   const dockRef = useRef(null);
+
+  // Sync window states with active apps
+  useEffect(() => {
+    setActiveApps(prev => ({
+      ...prev,
+      music: isMusicPlayerOpen,
+      chrome: isGoogleOpen,
+      settings: isSettingsOpen
+    }));
+  }, [isMusicPlayerOpen, isGoogleOpen, isSettingsOpen]);
 
   const handleDockIconClick = (appName) => {
     console.log('Dock icon clicked:', appName);
+    
+    // Toggle the active state for the clicked app
+    setActiveApps(prev => ({
+      ...prev,
+      [appName]: !prev[appName]
+    }));
+
     switch (appName) {
       case 'music':
         console.log('Opening music player');
         setMusicService('apple');
-        setIsMusicPlayerOpen(true);
+        setIsMusicPlayerOpen(prev => !prev);
         break;
       case 'todo':
         // Handle todo click
@@ -44,10 +73,15 @@ const Home = () => {
         // Handle journal click
         break;
       case 'chrome':
-        setIsGoogleOpen(true);
+        setIsGoogleOpen(prev => !prev);
         break;
       case 'settings':
-        // Handle settings click
+        setIsSettingsOpen(prev => !prev);
+        break;
+        break;
+      case 'settings':
+        setIsSettingsOpen(true);
+        setActiveWindows(prev => [...prev.filter(w => w !== 'settings'), 'settings']);
         break;
       case 'calculator':
         // Handle calculator click
@@ -467,7 +501,10 @@ const Home = () => {
       {/* Dock */}
       <div className="dock">
         <div className="dock-container">
-          <button className="dock-item" onClick={() => handleDockIconClick('music')}>
+          <button 
+            className={`dock-item ${activeApps.music ? 'active' : ''}`} 
+            onClick={() => handleDockIconClick('music')}
+          >
             <div className="dock-icon">
               <img src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Apple_Music_icon_iOS_26.svg" 
                    alt="Music" 
@@ -495,7 +532,10 @@ const Home = () => {
                    className="dock-icon-image" />
             </div>
           </button>
-          <button className="dock-item" onClick={() => handleDockIconClick('settings')}>
+          <button 
+            className={`dock-item ${activeApps.settings ? 'active' : ''}`} 
+            onClick={() => handleDockIconClick('settings')}
+          >
             <div className="dock-icon">
               <img src="https://upload.wikimedia.org/wikipedia/commons/e/ea/Settings_%28iOS%29.png" 
                    alt="Settings" 
@@ -522,6 +562,12 @@ const Home = () => {
       <GoogleSearch
         isOpen={isGoogleOpen}
         onClose={() => setIsGoogleOpen(false)}
+      />
+
+      {/* Settings */}
+      <Settings
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
       />
     </div>
   );
