@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import MusicPlayer from '../Music/MusicPlayer';
 import GoogleSearch from '../Google/GoogleSearch';
 import Settings from '../Settings/Settings';
+import TodoWindow from '../Todo/TodoWindow';
 import './Home.css';
 
 const Home = () => {
@@ -29,6 +30,7 @@ const Home = () => {
   const [isGoogleOpen, setIsGoogleOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [activeWindows, setActiveWindows] = useState([]);
+  const [isTodoOpen, setIsTodoOpen] = useState(false);
   const [musicService, setMusicService] = useState('apple');
   const [activeApps, setActiveApps] = useState({
     music: false,
@@ -47,27 +49,21 @@ const Home = () => {
       ...prev,
       music: isMusicPlayerOpen,
       chrome: isGoogleOpen,
-      settings: isSettingsOpen
+      settings: isSettingsOpen,
+      todo: isTodoOpen
     }));
-  }, [isMusicPlayerOpen, isGoogleOpen, isSettingsOpen]);
+  }, [isMusicPlayerOpen, isGoogleOpen, isSettingsOpen, isTodoOpen]);
 
   const handleDockIconClick = (appName) => {
     console.log('Dock icon clicked:', appName);
     
-    // Toggle the active state for the clicked app
-    setActiveApps(prev => ({
-      ...prev,
-      [appName]: !prev[appName]
-    }));
-
     switch (appName) {
       case 'music':
-        console.log('Opening music player');
         setMusicService('apple');
         setIsMusicPlayerOpen(prev => !prev);
         break;
       case 'todo':
-        // Handle todo click
+        setIsTodoOpen(prev => !prev);
         break;
       case 'journal':
         // Handle journal click
@@ -78,17 +74,18 @@ const Home = () => {
       case 'settings':
         setIsSettingsOpen(prev => !prev);
         break;
-        break;
-      case 'settings':
-        setIsSettingsOpen(true);
-        setActiveWindows(prev => [...prev.filter(w => w !== 'settings'), 'settings']);
-        break;
       case 'calculator':
         // Handle calculator click
         break;
       default:
         break;
     }
+
+    // Update active apps state
+    setActiveApps(prev => ({
+      ...prev,
+      [appName]: !prev[appName]
+    }));
   };
 
   // Fetch weather data
@@ -295,6 +292,9 @@ const Home = () => {
         <div className="bg-gradient"></div>
         <div className="bg-pattern"></div>
       </div>
+
+      {/* Application Windows */}
+      {isTodoOpen && <TodoWindow isOpen={isTodoOpen} onClose={() => setIsTodoOpen(false)} />}
 
       {/* Menu Bar */}
       <div className="menu-bar">
@@ -511,7 +511,9 @@ const Home = () => {
                    className="dock-icon-image" />
             </div>
           </button>
-          <button className="dock-item" onClick={() => handleDockIconClick('todo')}>
+          <button 
+            className={`dock-item ${activeApps.todo ? 'active' : ''}`} 
+            onClick={() => handleDockIconClick('todo')}>
             <div className="dock-icon">
               <img src="https://upload.wikimedia.org/wikipedia/commons/6/6e/Microsoft_To-Do_icon.svg" 
                    alt="Todo" 
