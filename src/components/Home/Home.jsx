@@ -8,7 +8,7 @@ import './Home.css';
 const Home = () => {
   // PUT YOUR OPENWEATHERMAP API KEY HERE
   const WEATHER_API_KEY = '9f6dd828b10412b99ae302e90267031a'; // Replace with your actual API key
-  const WEATHER_CITY = 'Khammam,IN'; // You can change this to your preferred city
+  const WEATHER_CITY = 'Hyderabad,IN'; // You can change this to your preferred city
   
   const [time, setTime] = useState(new Date());
   const [weather, setWeather] = useState({
